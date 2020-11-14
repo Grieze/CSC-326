@@ -274,8 +274,7 @@ bool letterPalindrome2(const string& str)
 {
      LinkedDequeue dequeue;
      bool isPalindrome = true;
-     int len = str.length(), count = 0, midpoint = 0;
-     for (int i = 0; i < len; i++)
+     for (int i = 0; i < str.length(); i++)
           dequeue.enqueue(tolower(str[i]));
      // Check if front of queue is = to back of queque
      while ((dequeue.returnBackPtr() != nullptr))
@@ -302,8 +301,13 @@ bool letterPalindrome3(const string& str)
      LinkedQueue queue;
      for (int i = 0; i < str.length(); i++)
      {
-          stack.push(tolower(isalpha(str[i])));
-          queue.enqueue(tolower(isalpha(str[i])));
+          if (str[i] == ' ' or str[i] == '.' or str[i] == ',' or str[i] == ':' or str[i] == '’' or str[i] == '!' or str[i] == '?')
+               continue;
+          else
+          {
+               stack.push(tolower(str[i]));
+               queue.enqueue(tolower(str[i]));
+          }
      }
      while (!stack.isEmpty() && !queue.isEmpty())
      {
@@ -321,15 +325,41 @@ bool letterPalindrome3(const string& str)
      return isPalindrome;
 }
 // LETTERPALINDROME3 ENDS ///////////////////////////////////////////////////////////////////////////////////////
+
+// LETTERPALINDROME4 BEGINS /////////////////////////////////////////////////////////////////////////////////////
 bool letterPalindrome4(const string& str)
 {
-     return true;
+     bool isPalindrome = true;
+     LinkedDequeue dequeue;
+     for (int i = 0; i < str.length(); i++)
+     {
+          if (str[i] == ' ' or str[i] == '.' or str[i] == ',' or str[i] == ':' or str[i] == '’' or str[i] == '!' or str[i] == '?')
+               continue;
+          else
+               dequeue.enqueue(tolower(str[i]));
+     }
+     // Check if front of queue is = to back of queque
+     while ((dequeue.returnBackPtr() != nullptr))
+     {
+          if (dequeue.peekFront() != dequeue.peekBack())
+          {
+               cout << "Not a palindrome.";
+               isPalindrome = false;
+               return isPalindrome;
+          }
+          dequeue.dequeue();
+          dequeue.dequeueBack();
+     }
+     cout << "It is a palindrome.";
+     return isPalindrome;
 }
-// LETTERPALINDROME4 BEGINS /////////////////////////////////////////////////////////////////////////////////////
 // LETTERPALINDROME4 ENDS ///////////////////////////////////////////////////////////////////////////////////////
 
 int main()
 {
-     letterPalindrome3("A but tuba");
+     letterPalindrome1("radar");
+     letterPalindrome2("RaDaR");
+     letterPalindrome3("A Toyota’s a Toyota.");
+     letterPalindrome4("A Toyota’s a Toyota.");
      return 0;
 }
