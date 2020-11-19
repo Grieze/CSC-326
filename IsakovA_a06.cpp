@@ -29,13 +29,34 @@ private:
      Node* topPtr;
 public:
      Stack() { topPtr = nullptr; }
+     Stack(const Stack& aStack);
      ~Stack();
      bool isEmpty() const;
      bool push(char str);
      bool pop();
      char peek() const;
 };
-
+Stack::Stack(const Stack& aStack)
+{
+     Node* origChainPtr = aStack.topPtr;
+     if (origChainPtr == nullptr)
+          topPtr = nullptr;
+     else
+     {
+          topPtr = new Node();
+          topPtr->setItem(origChainPtr->getItem());
+          Node* newChainPtr = topPtr;
+          while (origChainPtr != nullptr)
+          {
+               origChainPtr = origChainPtr->getNext();
+               char nextItem = origChainPtr->getItem();
+               Node* newNodePtr = new Node(nextItem);
+               newChainPtr->setNext(newNodePtr);
+               newChainPtr = newChainPtr->getNext();
+          }
+          newChainPtr->setNext(nullptr);
+     }
+}
 Stack::~Stack()
 {
      while (!isEmpty())
@@ -81,7 +102,8 @@ private:
      Node* frontPtr;
 public:
      LinkedQueue() {frontPtr = nullptr, backPtr = nullptr;}
-     ~LinkedQueue() {;}
+     LinkedQueue(const LinkedQueue& aQueue);
+     ~LinkedQueue();
      bool isEmpty() const;
      bool enqueue(char newEntry);
      bool dequeue();
@@ -89,6 +111,22 @@ public:
      char peekBack();
      void displayQueue();
 };
+LinkedQueue::LinkedQueue(const LinkedQueue& aQueue)
+{
+     Node* curPtr = aQueue.frontPtr;
+     while (curPtr != nullptr)
+     {
+          this->enqueue(curPtr->getItem());
+          curPtr = curPtr->getNext();
+     }
+}
+LinkedQueue::~LinkedQueue()
+{
+     while (!isEmpty())
+     {
+          dequeue();
+     }
+}
 bool LinkedQueue::isEmpty() const
 {
      return frontPtr == nullptr;
@@ -151,6 +189,7 @@ private:
      Node* frontPtr;
 public:
      LinkedDequeue() { frontPtr = nullptr, backPtr = nullptr; }
+     LinkedDequeue(const LinkedDequeue& aDequeue);
      ~LinkedDequeue() { ; }
      bool isEmpty() const;
      bool enqueue(char newEntry);
@@ -161,6 +200,15 @@ public:
      bool dequeueBack();
      Node* returnBackPtr() { return backPtr; }
 };
+LinkedDequeue::LinkedDequeue(const LinkedDequeue& aDequeue)
+{
+     Node* curPtr = aDequeue.frontPtr;
+     while (curPtr != nullptr)
+     {
+          this->enqueue(curPtr->getItem());
+          curPtr = curPtr->getNext();
+     }
+}
 bool LinkedDequeue::isEmpty() const
 {
      return frontPtr == nullptr;
@@ -358,8 +406,11 @@ bool letterPalindrome4(const string& str)
 int main()
 {
      letterPalindrome1("radar");
+     cout << endl;
      letterPalindrome2("RaDaR");
+     cout << endl;
      letterPalindrome3("A Toyota’s a Toyota.");
+     cout << endl;
      letterPalindrome4("A Toyota’s a Toyota.");
      return 0;
 }
