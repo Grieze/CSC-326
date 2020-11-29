@@ -1,4 +1,5 @@
 /*PROGRAM COMMENTS
+Implementation of Binary Tree using linked nodes. All functions use recursion in order to fully operate this Binary Tree.
 */
 
 #include <iostream>
@@ -87,7 +88,7 @@ public:
      bool add(const T& nData);	// calls balancedAdd() 
      void clear( ) { destroyTree( root ); root = NULL; }
      T gEnt(const T& anEnt) const throw(NotFoundExcept); // get entry
-     T btFind(BNode<T>* subTr, const T& target) const;
+     BNode<T>* btFind(BNode<T>* subTr, const T& target) const;
      //-------------------------------------------------------------------
      //        Traversal Functions
      //-------------------------------------------------------------------
@@ -221,7 +222,7 @@ T Tree<T>::gEnt(const T& anEnt) const throw(NotFoundExcept)
 }
 // Implementation of btFind
 template <class T>
-T Tree<T>::btFind(BNode<T>* subTr, const T& target) const
+BNode<T>* Tree<T>::btFind(BNode<T>* subTr, const T& target) const
 {
      if (subTr == nullptr)
           return nullptr;
@@ -264,5 +265,6 @@ int main()
      cout << "Pre Order Traversal: ";
      intTree.preTrav(print);
      cout << endl;
+     cout << intTree.gEnt(2);
      return 0;
 }
