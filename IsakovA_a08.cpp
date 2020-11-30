@@ -228,10 +228,11 @@ BNode<T>* Tree<T>::btFind(BNode<T>* subTr, const T& target) const
           return nullptr;
      else if (subTr->item == target)
           return subTr;
-     else if (subTr->item > target)
-          return btFind(subTr->lChild, target);
-     else
-          return btFind(subTr->rChild, target);
+     BNode<T>* LNode = btFind(subTr->lChild, target);
+     if (LNode != nullptr)
+          return LNode;
+     BNode<T>* RNode = btFind(subTr->rChild, target);
+     return RNode;
 }
 void print(int& x)
 {
@@ -249,12 +250,16 @@ int main()
      intTree.add(1);
      intTree.add(2);
      intTree.add(3);
+     intTree.add(4);
+     intTree.add(5);
+     intTree.add(10);
+     intTree.add(8);
      cout << "intTree's root is: " << intTree.gRtData() <<endl;
      cout << "The height of intTree is: " << intTree.gHei() << endl;
      cout << "The number of nodes in intTree is: " << intTree.gNumOfNodes() <<endl;
      Tree<int> copyTree(intTree);
      cout << "intTree is not empty (should be 0): " << intTree.isEmpty() << endl;
-     intTree.sRtData(4);
+     intTree.sRtData(8);
      cout << "intTree's new root is: " << intTree.gRtData() << endl;
      cout << "Post Order Traversal: "; 
      intTree.postTrav(print);
@@ -265,6 +270,6 @@ int main()
      cout << "Pre Order Traversal: ";
      intTree.preTrav(print);
      cout << endl;
-     cout << intTree.gEnt(2);
+     cout << intTree.gEnt(8);
      return 0;
 }
